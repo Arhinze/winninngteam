@@ -1,8 +1,8 @@
 <?php
 $dbhost = "localhost";
-$dbname = "voting_system";
-$dbuser = "root";
-$dbpass = "";
+$dbname = "u370269237_voting_system";
+$dbuser = "u370269237_francis";
+$dbpass = "Winninglife1!";
 
 $pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 

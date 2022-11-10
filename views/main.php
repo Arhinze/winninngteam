@@ -1,8 +1,8 @@
 <?php
 $dbhost = "localhost";
-$dbname = "voting_system";
-$dbuser = "root";
-$dbpass = "";
+$dbname = "u370269237_voting_system";
+$dbuser = "u370269237_francis";
+$dbpass = "Winninglife1!";
 
 $pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 
@@ -101,7 +101,7 @@ if (isset($_POST["login-user"])) {
             <ul class="menu-list"> 
                 <li class="x"><label for="menu-box"><i class="fa fa-times"></i></label></li>
                 <li><a href="/">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="https://winningteam.myinstu.online/dashboard">Dashboard</a></li>
                 <li><a href="/home#contact">Contact</a></li>
                 <li><a href="/about-us">About us</a></li>
                 <li><a href="/faqs">Frequently Asked</a></li>
