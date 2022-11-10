@@ -5,6 +5,17 @@ include_once($_SERVER["DOCUMENT_ROOT"]."/php/connection.php");
 $data = authourized($pdo);
 
 if ($data) {
+
+    //CREATE POLL PARTICIPANTS
+    $user = "";
+    $poll = "";
+
+    if (isset($_GET["user"]) && isset($_GET["poll"])) {
+        $user = htmlentities($_GET["user"]);
+        $poll = htmlentities($_GET["poll"]);
+    }
+
+
     $mov_nin = isset($_POST["mov-nin"]) ? "nin" : "";
     $mov_int_pass = isset($_POST["mov-int-pass"]) ? "int-pass" : "";
     $mov_driver_license = isset($_POST["mov-driver-license"]) ? "driver-license" : "";
@@ -62,7 +73,7 @@ if ($data) {
                                 if (count($poll_data) > 0) { 
                                     foreach ($poll_data as $pd) {
                             ?>
-                                    <small class="view_polls"><a href="/poll-participants.php?user=<?=$data->id?>&poll=<?=$pd->poll_id?>"><?=$pd->poll_name?></a></small><br />
+                                    <small class="view_polls"><span onclick="poll_options('<?=$data->id?>','<?=$pd->poll_id?>')"><?=$pd->poll_name?></span></small><br />
                             <?php
                                     }
                                 } else {
@@ -81,21 +92,31 @@ if ($data) {
 
             <div class="dashboard-main">
                 <div class="clear">
-                    <div class="dashboard-menu-icon" onclick="show_div('dashboard-menu-icon')"><i class="fa fa-bars"></i></div> 
+                    <div class="dashboard-menu-icon" onclick="show_div('dashboard-menu-list')"><i class="fa fa-bars"></i></div> 
                 </div>
 
                 <div class="inner-dashboard-main" id="inner-dashboard-main">
-                    <div style="text-align:center;padding:8% 6%">
-                        <h2>How it works</h2>
 
-                        <p>
-                            Start by creating a <b>new poll</b>, then get replies from your authorized and verified participants in a fun, easy way.
-                        </p>
+                    <!--Main Content Begins -->
+                    <form method="post" action="" style="padding:8px 12px">
+                        <h3>Manage Your Poll: <?=$poll?></h3><hr/>
 
-                        <p>
-                            For more information, visit our <b><a href="/faqs">Frequently Asked Questions Section</a></b>.
-                        </p>
-                    </div>
+                        <?php
+                            //list out options you want on your poll/edit available options 
+                        ?>
+                    
+                        <div class="input-div">
+                            <input type="text" name="new-participant" class="input" placeholder="Enter Participant's Name"/>
+                        </div>
+
+                        <input type="hidden" name="add-participant" value="yes"/>
+                        
+                        <div class="input-div">
+                            <button type="submit" class="dashboard-button">Submit</button> 
+                        </div>
+                    </form>
+                    <!--Main Content ends-->
+
                 </div>
 
             </div>
