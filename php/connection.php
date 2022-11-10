@@ -1,7 +1,7 @@
 <?php
 $dbhost = "localhost";
 //u370269237_
-$dbname = "voting_system";
+$dbname = "u370269237_voting_system";
 $dbuser = "u370269237_francis";
 $dbpass = "Winninglife1!";
 

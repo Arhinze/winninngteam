@@ -15,6 +15,16 @@ if ($data) {
         $poll = htmlentities($_GET["poll"]);
     }
 
+    //Insert Poll Participant:
+    $participant_added = "";
+
+    if (isset($_POST["add-participant"])) {
+        $istmt = $pdo->prepare("INSERT INTO poll_verification(`user_id`, poll_id, poll_participant) VALUES(?, ?, ?)");
+        $istmt->execute([$user, $poll, htmlentities($_POST["new-participant"])]);
+
+        $participant_added = "<span style='color:green;margin:4px'>You've successfully added participant: ".htmlentities($_POST["new-participant"])."</span>";
+    }
+
 
     $mov_nin = isset($_POST["mov-nin"]) ? "nin" : "";
     $mov_int_pass = isset($_POST["mov-int-pass"]) ? "int-pass" : "";
@@ -73,7 +83,7 @@ if ($data) {
                                 if (count($poll_data) > 0) { 
                                     foreach ($poll_data as $pd) {
                             ?>
-                                    <small class="view_polls"><span onclick="poll_options('<?=$data->id?>','<?=$pd->poll_id?>')"><?=$pd->poll_name?></span></small><br />
+                                        <small class="view_polls"><a href="/poll-participants.php?user=<?=$data->id?>&poll=<?=$pd->poll_id?>"><?=$pd->poll_name?></a></small><br />
                             <?php
                                     }
                                 } else {
@@ -98,20 +108,26 @@ if ($data) {
                 <div class="inner-dashboard-main" id="inner-dashboard-main">
 
                     <!--Main Content Begins -->
+                    <?=$participant_added?>
                     <form method="post" action="" style="padding:8px 12px">
-                        <h3>Manage Your Poll: <?=$poll?></h3><hr/>
+                        <h3>Manage Your Poll </h3><hr/>
                     
-                        <h4>Enter Options:</h4>
+                        <h4>Enter Participant's Name:</h4>
                         <small>
-                            Click Button below to enter/edit options under this poll
+                            Fill in names of eligible participants for this poll. Our system would automatically verify their identities before they can vote.
                         </small>
 
-                        <a href="/poll-options.php?user=<?=$user?>&poll=<?=$poll?>" class="dashboard-button">Options</a>
-                    
                         <div class="input-div">
                             <input type="text" name="new-participant" class="input" placeholder="Enter Participant's Name"/>
                         </div>
 
+                        <h4>Enter Options:</h4>
+                        <small>
+                            Click this Button to enter/edit the options of this poll
+                        </small>
+
+                        <a href="/poll-options.php?user=<?=$user?>&poll=<?=$poll?>" class="dashboard-button">Options</a>
+                    
                         <input type="hidden" name="add-participant" value="yes"/>
                         
                         <div class="input-div">

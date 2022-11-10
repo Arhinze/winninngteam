@@ -6,7 +6,7 @@ $data = authourized($pdo);
 
 if ($data) {
 
-    //CREATE POLL PARTICIPANTS
+    //CREATE POLL OPTIONS
     $user = "";
     $poll = "";
 
@@ -14,6 +14,17 @@ if ($data) {
         $user = htmlentities($_GET["user"]);
         $poll = htmlentities($_GET["poll"]);
     }
+
+    //Insert Poll Options:
+    $option_added = "";
+
+    if (isset($_POST["add-option"])) {
+        $istmt = $pdo->prepare("INSERT INTO poll_option(poll_id, `user_id`, poll_option_value) VALUES(?, ?, ?)");
+        $istmt->execute([$poll, $user, htmlentities($_POST["new-option"])]);
+    
+        $option_added = "<span style='color:green;margin:4px'>You've successfully added participant: ".htmlentities($_POST["new-option"])."</span>";
+    }
+    
 
 
     $mov_nin = isset($_POST["mov-nin"]) ? "nin" : "";
@@ -73,7 +84,7 @@ if ($data) {
                                 if (count($poll_data) > 0) { 
                                     foreach ($poll_data as $pd) {
                             ?>
-                                    <small class="view_polls"><span onclick="poll_options('<?=$data->id?>','<?=$pd->poll_id?>')"><?=$pd->poll_name?></span></small><br />
+                                    <small class="view_polls"><a href="/poll-participants.php?user=<?=$data->id?>&poll=<?=$pd->poll_id?>"><?=$pd->poll_name?></a></small><br />
                             <?php
                                     }
                                 } else {
@@ -99,20 +110,37 @@ if ($data) {
 
                     <!--Main Content Begins -->
                     <form method="post" action="" style="padding:8px 12px">
-                        <h3>Manage Your Poll: <?=$poll?></h3><hr/>
+
+                        <?=$option_added?>
+
+                        <h3>Manage Your Poll </h3><hr/>
+
 
                         <?php
-                            //list out options you want on your poll/edit available options 
+                            //list out Available options already inputed and then give users space to add more options
+                            $option_stmt = $pdo->prepare("SELECT * FROM poll_option WHERE poll_id = ? AND `user_id` = ? ORDER BY `poll_id` DESC LIMIT ?, ?");
+                            $option_stmt->execute([$poll, $data->id, 0, 3]);
+                            
+                            $option_data = $option_stmt->fetchAll(PDO::FETCH_OBJ);
+
+                            if (count($option_data) > 0) {
+                                echo "Here are your Available options:<br />";
+                                foreach ($option_data as $od) {
+?>
+                                    <b><?= $od->poll_option_value ?></b><br />
+<?php
+                                }
+                            }
                         ?>
                     
                         <div class="input-div">
-                            <input type="text" name="new-participant" class="input" placeholder="Enter Participant's Name"/>
+                            <input type="text" name="new-option" class="input" placeholder="Enter Option"/>
                         </div>
 
-                        <input type="hidden" name="add-participant" value="yes"/>
+                        <input type="hidden" name="add-option" value="yes"/>
                         
                         <div class="input-div">
-                            <button type="submit" class="dashboard-button">Submit</button> 
+                            <button type="submit" class="dashboard-button"> Submit </button> 
                         </div>
                     </form>
                     <!--Main Content ends-->
