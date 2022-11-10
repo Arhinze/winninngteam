@@ -21,28 +21,37 @@ if (isset($_POST["poll-option"])) {
       ],
     ]);
     
-    echo $response->getBody();
-
-    $istmt = $pdo->prepare("INSERT INTO poll_verification(`user_id`, poll_id, poll_participant) VALUES(?, ?, ?)");
-    $istmt->execute([$user, $poll, htmlentities($_POST["new-participant"])]);
-}
-
-$user = "";
-$poll = "";
-
-if (isset($_GET["user"]) && isset($_GET["poll"])) {
-    $user = htmlentities($_GET["user"]);
-    $poll = htmlentities($_GET["poll"]);
-
-    //Fetch options
-    $poll_stmt = $pdo->prepare("SELECT * FROM poll_option WHERE poll_id = ? ORDER BY poll_id DESC LIMIT ?, ?");
-    $poll_stmt->execute([$poll, 0, 3]);
+ //   echo $response->getBody();
     
-    $poll_data = $poll_stmt->fetchAll(PDO::FETCH_OBJ);
+    $user = "";
+    $poll = "";
+    
+    if (isset($_GET["user"]) && isset($_GET["poll"])) {
+        $user = htmlentities($_GET["user"]);
+        $poll = htmlentities($_GET["poll"]);
+    
+        //Fetch options
+        $poll_stmt = $pdo->prepare("SELECT * FROM poll_option WHERE poll_id = ? ORDER BY poll_id DESC LIMIT ?, ?");
+        $poll_stmt->execute([$poll, 0, 3]);
+        
+        $poll_data = $poll_stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    $is_verified = "";
+
+    if ($response->getBody()) {
+        $istmt = $pdo->prepare("INSERT INTO poll_verification(`user_id`, poll_id, poll_participant) VALUES(?, ?, ?)");
+        $istmt->execute([$user, $poll, htmlentities($_POST["new-participant"])]);
+    } else {
+        $is_verified = "Sorry, Your NIN could not be verified. Ensure you're inputting the correct Figures";
+    }
+
 }
+
 ?>
 
 <form method="post" action="" class="inner-dashboard-main" class ="inner-dashboard-main">
+    <b style="color:green"><?=$is_verified?></b>
 <?php
     if (count($poll_data) > 0) {
         foreach ($polldata as $pd) {
