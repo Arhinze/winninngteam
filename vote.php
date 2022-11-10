@@ -1,13 +1,32 @@
 <?php
 
-if (isset($_POST["poll-option"])) {
+include_once($_SERVER["DOCUMENT_ROOT"]."/php/connection.php");
 
     $nin = "";
     if (isset($_POST["nin"])) {
         $nin = $_POST["nin"];
     }
+    
+    $user = "";
+    $poll = "";
+    
+    if (isset($_GET["user"]) && isset($_GET["poll"])) {
+        $user = htmlentities($_GET["user"]);
+        $poll = htmlentities($_GET["poll"]);
+    
+        //Fetch options
+        $poll_stmt = $pdo->prepare("SELECT * FROM poll_option WHERE `user_id` = ? ORDER BY poll_id DESC LIMIT ?, ?");
+        $poll_stmt->execute([$user, 0, 3]);
+        
+        $poll_data = $poll_stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+    
+    
+if (isset($_POST["poll-option"])) {
 
-    require_once('vendor/autoload.php');
+
+
+    //require_once('vendor/autoload.php');
     
     $client = new \GuzzleHttp\Client();
     
@@ -23,19 +42,7 @@ if (isset($_POST["poll-option"])) {
     
  //   echo $response->getBody();
     
-    $user = "";
-    $poll = "";
-    
-    if (isset($_GET["user"]) && isset($_GET["poll"])) {
-        $user = htmlentities($_GET["user"]);
-        $poll = htmlentities($_GET["poll"]);
-    
-        //Fetch options
-        $poll_stmt = $pdo->prepare("SELECT * FROM poll_option WHERE poll_id = ? ORDER BY poll_id DESC LIMIT ?, ?");
-        $poll_stmt->execute([$poll, 0, 3]);
-        
-        $poll_data = $poll_stmt->fetchAll(PDO::FETCH_OBJ);
-    }
+
 
     $is_verified = "";
 
@@ -50,7 +57,7 @@ if (isset($_POST["poll-option"])) {
 
 ?>
 
-<form method="post" action="" class="inner-dashboard-main" class ="inner-dashboard-main">
+<form method="post" action="" class="inner-dashboard-main">
     <b style="color:green"><?=$is_verified?></b>
 <?php
     if (count($poll_data) > 0) {
@@ -61,13 +68,20 @@ if (isset($_POST["poll-option"])) {
         }
 ?>
 
-    <b>Kindly enter your NIN to proceed in taking this poll</b>
+<div style="border:2px solid #888;box-shadow:3px 3px 7px 3px #888; border-radius:6px;padding:8px 12px;margin:6% 8%">
+    <b>Kindly enter your NIN to proceed in taking this poll</b><br /><br />
+
+
 
     <div class="input-div">
-        <input type="text" name="nin" class="input" placeholder="Please enter your NIN"/>
+        <input type="text" name="nin" class="input" style="border-radius:6px;height:39px;width:80%" placeholder="Please enter your NIN"/>
     </div>
 
-    <input type="submit" class="dashboard-button" value="Submit"/>
+    <br />
+   
+    <input type="submit" class="dashboard-button" style = "background-color:#5a3e8d;color:#fff;border-radius:6px;padding:8px 12px" value="Submit"/>
+</div>    
+
 <?php
     }
 ?> 

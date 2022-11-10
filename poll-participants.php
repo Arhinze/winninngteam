@@ -134,8 +134,14 @@ if ($data) {
                             <button type="submit" class="dashboard-button">Submit</button> 
                         </div>
 
+                        <br/>
                         <b>Tip</b>: Share this link with your participants. They'd be verified based on the above credentials before voting.<br />
-                        <b>Polling Unit Link: </a> <a href="/poll-options.php?user=<?=$user?>&poll=<?=$poll?>" class="dashboard-button">Options</a>
+                        <b>Polling Unit Link: </b>  
+                        
+                        <a href="https://winningteam.myinstu.online/vote.php?user=<?=$user?>&poll=<?=$poll?>">
+                            https://winningteam.myinstu.online/vote.php?user=<?=$user?>&poll=<?=$poll?> 
+                        </a>
+                        
                     </form>
                     <!--Main Content ends-->
 
