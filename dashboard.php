@@ -50,9 +50,12 @@ if ($data) {
 
     <body>
         <div class="dashboard">
-            <div class="dashboard-menu">
+            <div class="dashboard-menu" id="dashboard-menu" style="display:none">
                 <ul class="dashboard-menu-list">
-                    <li class="clear"><button class="dashboard-button" style="float:right" onclick="ajax_dashboard('new-poll')"> + New Poll </button></li>
+                    <li class="clear">
+                        <b class="fa fa-times" style="float:left;color:#5a3e8d" onclick="show_div('dashboard-menu')"></b>
+                        <button class="dashboard-button" style="float:right" onclick="ajax_dashboard('new-poll')"> + New Poll </button>
+                    </li>
                     
                     <li><a href="/">HOME</a></li>
 
@@ -81,7 +84,9 @@ if ($data) {
 
             <div class="dashboard-main">
                 <div class="clear">
-                    <div class="dashboard-menu-icon" onclick="show_div('dashboard-menu-icon')"><i class="fa fa-bars"></i></div> 
+                    <div class="dashboard-menu-icon" onclick="show_div('dashboard-menu')">
+                        <i class="fa fa-bars"></i>
+                    </div> 
                 </div>
 
                 <div class="inner-dashboard-main" id="inner-dashboard-main">

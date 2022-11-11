@@ -71,9 +71,12 @@ if ($data) {
 
     <body>
         <div class="dashboard">
-            <div class="dashboard-menu">
+            <div class="dashboard-menu" id="dashboard-menu" style="display:none">
                 <ul class="dashboard-menu-list">
-                    <li class="clear"><button class="dashboard-button" style="float:right" onclick="ajax_dashboard('new-poll')"> + New Poll </button></li>
+                    <li class="clear">
+                        <b class="fa fa-times" style="float:left;color:#5a3e8d" onclick="show_div('dashboard-menu')"></b>
+                        <button class="dashboard-button" style="float:right" onclick="ajax_dashboard('new-poll')"> + New Poll </button>
+                    </li>
                     
                     <li><a href="/">HOME</a></li>
 
@@ -102,14 +105,17 @@ if ($data) {
 
             <div class="dashboard-main">
                 <div class="clear">
-                    <div class="dashboard-menu-icon" onclick="show_div('dashboard-menu-list')"><i class="fa fa-bars"></i></div> 
+                    <div class="dashboard-menu-icon" onclick="show_div('dashboard-menu')"><i class="fa fa-bars"></i></div> 
                 </div>
 
                 <div class="inner-dashboard-main" id="inner-dashboard-main">
 
                     <!--Main Content Begins -->
-                    <?=$participant_added?>
+
                     <form method="post" action="" style="padding:8px 12px">
+                    
+                        <div style="margin:6px"><?=$participant_added?></div>
+
                         <h3>Manage Your Poll </h3><hr/>
                     
                         <h4>Enter Participant's Name:</h4>
@@ -120,13 +126,6 @@ if ($data) {
                         <div class="input-div">
                             <input type="text" name="new-participant" class="input" placeholder="Enter Participant's Name"/>
                         </div>
-
-                        <h4>Enter Options:</h4>
-                        <small>
-                            Click this Button to enter/edit the options of this poll
-                        </small>
-
-                        <a href="/poll-options.php?user=<?=$user?>&poll=<?=$poll?>" class="dashboard-button">Options</a>
                     
                         <input type="hidden" name="add-participant" value="yes"/>
                         
@@ -134,14 +133,11 @@ if ($data) {
                             <button type="submit" class="dashboard-button">Submit</button> 
                         </div>
 
-                        <br/>
-                        <b>Tip</b>: Share this link with your participants. They'd be verified based on the above credentials before voting.<br />
-                        <b>Polling Unit Link: </b>  
-                        
-                        <a href="https://winningteam.myinstu.online/vote.php?user=<?=$user?>&poll=<?=$poll?>">
-                            https://winningteam.myinstu.online/vote.php?user=<?=$user?>&poll=<?=$poll?> 
+                        <br /><br />
+
+                        <a href="/poll-options.php?user=<?=$user?>&poll=<?=$poll?>" style="background-color:#5a3e8d;border-radius:4px;padding:3px 6px;color:#fff">
+                            Enter/Edit Poll Options
                         </a>
-                        
                     </form>
                     <!--Main Content ends-->
 

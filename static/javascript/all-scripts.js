@@ -78,7 +78,9 @@ function show_div(vari) {
 }
 
 function ajax_dashboard(section){
-
+    
+    show_div('dashboard-menu');
+    //document.getElementById("inner-dashboard-main").innerHTML = "Loading...";
     document.getElementById("inner-dashboard-main").innerHTML = "Loading...";
 
     obj = new XMLHttpRequest;

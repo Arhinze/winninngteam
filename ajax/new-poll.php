@@ -21,11 +21,11 @@ if ($data) {
     -->
     
     <div class="input-div">
-        Poll Start Date: <input type="date" name="poll-start-date" style="width:120px;height:30px;border-radius:6px;border:2px solid #5a3e8d"/>
+        Poll Start Date: <input type="date" name="poll-start-date" style="width:120px;height:30px;border-radius:6px;border:2px solid #5a3e8d" required/>
     </div>
 
     <div class="input-div">
-        Poll End Date: <input type="date" name="poll-end-date" style="width:120px;height:30px;border-radius:6px;border:2px solid #5a3e8d"/>
+        Poll End Date: <input type="date" name="poll-end-date" style="width:120px;height:30px;border-radius:6px;border:2px solid #5a3e8d" required/>
     </div>
 
     <h3>Means of verification</h3>
